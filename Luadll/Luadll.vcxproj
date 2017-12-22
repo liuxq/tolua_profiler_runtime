@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3CAB8506-6593-45BF-939C-65CD25A7CBA9}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Luadll</RootNamespace>
+    <ProjectName>Luadll</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <TargetName>tolua</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>tolua</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LUADLL1_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(TargetDir)libobj\lib_*.obj $(TargetDir)ljobj\lj_*.obj $(TargetDir)lj_vm.obj;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_USRDLL;LUAJIT_ENABLE_GC64;LUA_BUILD_AS_DLL;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE;LUA_LIB;inline=__inline;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Lj;$(SolutionDir)Header;$(SolutionDir)Builvmheader;$(SolutionDir);$(SolutionDir)Profiler;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(TargetDir)libobj\lib_*.obj;$(TargetDir)ljobj\lj_*.obj;$(TargetDir)lj_vm.obj;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LUADLL1_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>$(TargetDir)libobj\lib_*.obj $(TargetDir)ljobj\lj_*.obj $(TargetDir)lj_vm.obj;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LUAJIT_ENABLE_GC64;LUA_BUILD_AS_DLL;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE;LUA_LIB;inline=__inline;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Lj;$(SolutionDir)Header;$(SolutionDir)Builvmheader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>$(TargetDir)libobj\lib_*.obj;$(TargetDir)ljobj\lj_*.obj;$(TargetDir)lj_vm.obj;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\int64.c" />
+    <ClCompile Include="..\Lj\lj_alloc.c" />
+    <ClCompile Include="..\Lj\lj_api.c" />
+    <ClCompile Include="..\Lj\lj_asm.c" />
+    <ClCompile Include="..\Lj\lj_bc.c" />
+    <ClCompile Include="..\Lj\lj_bcread.c" />
+    <ClCompile Include="..\Lj\lj_bcwrite.c" />
+    <ClCompile Include="..\Lj\lj_buf.c" />
+    <ClCompile Include="..\Lj\lj_carith.c" />
+    <ClCompile Include="..\Lj\lj_ccall.c" />
+    <ClCompile Include="..\Lj\lj_ccallback.c" />
+    <ClCompile Include="..\Lj\lj_cconv.c" />
+    <ClCompile Include="..\Lj\lj_cdata.c" />
+    <ClCompile Include="..\Lj\lj_char.c" />
+    <ClCompile Include="..\Lj\lj_clib.c" />
+    <ClCompile Include="..\Lj\lj_cparse.c" />
+    <ClCompile Include="..\Lj\lj_crecord.c" />
+    <ClCompile Include="..\Lj\lj_ctype.c" />
+    <ClCompile Include="..\Lj\lj_debug.c" />
+    <ClCompile Include="..\Lj\lj_dispatch.c" />
+    <ClCompile Include="..\Lj\lj_err.c" />
+    <ClCompile Include="..\Lj\lj_ffrecord.c" />
+    <ClCompile Include="..\Lj\lj_func.c" />
+    <ClCompile Include="..\Lj\lj_gc.c" />
+    <ClCompile Include="..\Lj\lj_gdbjit.c" />
+    <ClCompile Include="..\Lj\lj_ir.c" />
+    <ClCompile Include="..\Lj\lj_lex.c" />
+    <ClCompile Include="..\Lj\lj_lib.c" />
+    <ClCompile Include="..\Lj\lj_load.c" />
+    <ClCompile Include="..\Lj\lj_mcode.c" />
+    <ClCompile Include="..\Lj\lj_meta.c" />
+    <ClCompile Include="..\Lj\lj_obj.c" />
+    <ClCompile Include="..\Lj\lj_opt_dce.c" />
+    <ClCompile Include="..\Lj\lj_opt_fold.c" />
+    <ClCompile Include="..\Lj\lj_opt_loop.c" />
+    <ClCompile Include="..\Lj\lj_opt_mem.c" />
+    <ClCompile Include="..\Lj\lj_opt_narrow.c" />
+    <ClCompile Include="..\Lj\lj_opt_sink.c" />
+    <ClCompile Include="..\Lj\lj_opt_split.c" />
+    <ClCompile Include="..\Lj\lj_parse.c" />
+    <ClCompile Include="..\Lj\lj_profile.c" />
+    <ClCompile Include="..\Lj\lj_record.c" />
+    <ClCompile Include="..\Lj\lj_snap.c" />
+    <ClCompile Include="..\Lj\lj_state.c" />
+    <ClCompile Include="..\Lj\lj_str.c" />
+    <ClCompile Include="..\Lj\lj_strfmt.c" />
+    <ClCompile Include="..\Lj\lj_strfmt_num.c" />
+    <ClCompile Include="..\Lj\lj_strscan.c" />
+    <ClCompile Include="..\Lj\lj_tab.c" />
+    <ClCompile Include="..\Lj\lj_trace.c" />
+    <ClCompile Include="..\Lj\lj_udata.c" />
+    <ClCompile Include="..\Lj\lj_vmevent.c" />
+    <ClCompile Include="..\Lj\lj_vmmath.c" />
+    <ClCompile Include="..\lpeg.c" />
+    <ClCompile Include="..\Lualib\lib_base.c" />
+    <ClCompile Include="..\Lualib\lib_bit.c" />
+    <ClCompile Include="..\Lualib\lib_debug.c" />
+    <ClCompile Include="..\Lualib\lib_ffi.c" />
+    <ClCompile Include="..\Lualib\lib_io.c" />
+    <ClCompile Include="..\Lualib\lib_jit.c" />
+    <ClCompile Include="..\Lualib\lib_math.c" />
+    <ClCompile Include="..\Lualib\lib_os.c" />
+    <ClCompile Include="..\Lualib\lib_package.c" />
+    <ClCompile Include="..\Lualib\lib_string.c" />
+    <ClCompile Include="..\Lualib\lib_table.c" />
+    <ClCompile Include="..\Luaprofiler\cJSON.c" />
+    <ClCompile Include="..\Luaprofiler\clocks.c" />
+    <ClCompile Include="..\Luaprofiler\core_profiler.c" />
+    <ClCompile Include="..\Luaprofiler\function_meter.c" />
+    <ClCompile Include="..\Luaprofiler\luajit_memprofiler.c" />
+    <ClCompile Include="..\Luaprofiler\luajit_profiler.c" />
+    <ClCompile Include="..\Luaprofiler\output.c" />
+    <ClCompile Include="..\Luaprofiler\queue.c" />
+    <ClCompile Include="..\Luaprofiler\stack.c" />
+    <ClCompile Include="..\OtherLuaLib\lib_aux.c" />
+    <ClCompile Include="..\OtherLuaLib\lib_init.c" />
+    <ClCompile Include="..\pb.c" />
+    <ClCompile Include="..\struct.c" />
+    <ClCompile Include="..\tolua.c" />
+    <ClCompile Include="..\uint64.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Lj\lj_alloc.h" />
+    <ClInclude Include="..\Lj\lj_arch.h" />
+    <ClInclude Include="..\Lj\lj_asm.h" />
+    <ClInclude Include="..\Lj\lj_asm_arm.h" />
+    <ClInclude Include="..\Lj\lj_asm_arm64.h" />
+    <ClInclude Include="..\Lj\lj_asm_mips.h" />
+    <ClInclude Include="..\Lj\lj_asm_ppc.h" />
+    <ClInclude Include="..\Lj\lj_asm_x86.h" />
+    <ClInclude Include="..\Lj\lj_bc.h" />
+    <ClInclude Include="..\Lj\lj_bcdump.h" />
+    <ClInclude Include="..\Lj\lj_buf.h" />
+    <ClInclude Include="..\Lj\lj_carith.h" />
+    <ClInclude Include="..\Lj\lj_ccall.h" />
+    <ClInclude Include="..\Lj\lj_ccallback.h" />
+    <ClInclude Include="..\Lj\lj_cconv.h" />
+    <ClInclude Include="..\Lj\lj_cdata.h" />
+    <ClInclude Include="..\Lj\lj_char.h" />
+    <ClInclude Include="..\Lj\lj_clib.h" />
+    <ClInclude Include="..\Lj\lj_cparse.h" />
+    <ClInclude Include="..\Lj\lj_crecord.h" />
+    <ClInclude Include="..\Lj\lj_ctype.h" />
+    <ClInclude Include="..\Lj\lj_debug.h" />
+    <ClInclude Include="..\Lj\lj_def.h" />
+    <ClInclude Include="..\Lj\lj_dispatch.h" />
+    <ClInclude Include="..\Lj\lj_emit_arm.h" />
+    <ClInclude Include="..\Lj\lj_emit_arm64.h" />
+    <ClInclude Include="..\Lj\lj_emit_mips.h" />
+    <ClInclude Include="..\Lj\lj_emit_ppc.h" />
+    <ClInclude Include="..\Lj\lj_emit_x86.h" />
+    <ClInclude Include="..\Lj\lj_err.h" />
+    <ClInclude Include="..\Lj\lj_errmsg.h" />
+    <ClInclude Include="..\Lj\lj_ff.h" />
+    <ClInclude Include="..\Lj\lj_ffrecord.h" />
+    <ClInclude Include="..\Lj\lj_frame.h" />
+    <ClInclude Include="..\Lj\lj_func.h" />
+    <ClInclude Include="..\Lj\lj_gc.h" />
+    <ClInclude Include="..\Lj\lj_gdbjit.h" />
+    <ClInclude Include="..\Lj\lj_ir.h" />
+    <ClInclude Include="..\Lj\lj_ircall.h" />
+    <ClInclude Include="..\Lj\lj_iropt.h" />
+    <ClInclude Include="..\Lj\lj_jit.h" />
+    <ClInclude Include="..\Lj\lj_lex.h" />
+    <ClInclude Include="..\Lj\lj_lib.h" />
+    <ClInclude Include="..\Lj\lj_mcode.h" />
+    <ClInclude Include="..\Lj\lj_meta.h" />
+    <ClInclude Include="..\Lj\lj_obj.h" />
+    <ClInclude Include="..\Lj\lj_parse.h" />
+    <ClInclude Include="..\Lj\lj_profile.h" />
+    <ClInclude Include="..\Lj\lj_record.h" />
+    <ClInclude Include="..\Lj\lj_snap.h" />
+    <ClInclude Include="..\Lj\lj_state.h" />
+    <ClInclude Include="..\Lj\lj_str.h" />
+    <ClInclude Include="..\Lj\lj_strfmt.h" />
+    <ClInclude Include="..\Lj\lj_strscan.h" />
+    <ClInclude Include="..\Lj\lj_tab.h" />
+    <ClInclude Include="..\Lj\lj_target.h" />
+    <ClInclude Include="..\Lj\lj_target_arm.h" />
+    <ClInclude Include="..\Lj\lj_target_arm64.h" />
+    <ClInclude Include="..\Lj\lj_target_mips.h" />
+    <ClInclude Include="..\Lj\lj_target_ppc.h" />
+    <ClInclude Include="..\Lj\lj_target_x86.h" />
+    <ClInclude Include="..\Lj\lj_trace.h" />
+    <ClInclude Include="..\Lj\lj_traceerr.h" />
+    <ClInclude Include="..\Lj\lj_udata.h" />
+    <ClInclude Include="..\Lj\lj_vm.h" />
+    <ClInclude Include="..\Lj\lj_vmevent.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

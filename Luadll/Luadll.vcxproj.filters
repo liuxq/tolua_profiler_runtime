@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\OtherLuaLib\lib_aux.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lualib\lib_base.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lualib\lib_bit.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lualib\lib_debug.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lualib\lib_ffi.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OtherLuaLib\lib_init.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lualib\lib_io.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lualib\lib_jit.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lualib\lib_math.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lualib\lib_os.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lualib\lib_package.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lualib\lib_string.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lualib\lib_table.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_alloc.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_api.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_asm.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_bc.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_bcread.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_bcwrite.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_buf.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_carith.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_ccall.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_ccallback.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_cconv.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_cdata.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_char.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_clib.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_cparse.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_crecord.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_ctype.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_debug.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_dispatch.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_err.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_ffrecord.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_func.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_gc.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_gdbjit.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_ir.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_lex.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_lib.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_load.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_mcode.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_meta.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_obj.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_opt_dce.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_opt_fold.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_opt_loop.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_opt_mem.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_opt_narrow.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_opt_sink.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_opt_split.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_parse.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_profile.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_record.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_snap.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_state.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_str.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_strfmt.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_strfmt_num.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_strscan.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_tab.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_trace.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_udata.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_vmevent.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Lj\lj_vmmath.c">
+      <Filter>luajit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Luaprofiler\cJSON.c">
+      <Filter>profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Luaprofiler\clocks.c">
+      <Filter>profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Luaprofiler\core_profiler.c">
+      <Filter>profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Luaprofiler\function_meter.c">
+      <Filter>profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Luaprofiler\output.c">
+      <Filter>profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Luaprofiler\queue.c">
+      <Filter>profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Luaprofiler\stack.c">
+      <Filter>profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Luaprofiler\luajit_memprofiler.c">
+      <Filter>profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Luaprofiler\luajit_profiler.c">
+      <Filter>profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\int64.c">
+      <Filter>tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lpeg.c">
+      <Filter>tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\pb.c">
+      <Filter>tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\struct.c">
+      <Filter>tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tolua.c">
+      <Filter>tolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\uint64.c">
+      <Filter>tolua</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Lj\lj_alloc.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_arch.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_asm.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_asm_arm.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_asm_arm64.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_asm_mips.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_asm_ppc.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_asm_x86.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_bc.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_bcdump.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_buf.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_carith.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_ccall.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_ccallback.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_cconv.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_cdata.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_char.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_clib.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_cparse.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_crecord.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_ctype.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_debug.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_def.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_dispatch.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_emit_arm.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_emit_arm64.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_emit_mips.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_emit_ppc.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_emit_x86.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_err.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_errmsg.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_ff.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_ffrecord.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_frame.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_func.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_gc.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_gdbjit.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_ir.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_ircall.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_iropt.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_jit.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_lex.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_lib.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_mcode.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_meta.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_obj.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_parse.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_profile.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_record.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_snap.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_state.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_str.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_strfmt.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_strscan.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_tab.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_target.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_target_arm.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_target_arm64.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_target_mips.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_target_ppc.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_target_x86.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_trace.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_traceerr.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_udata.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_vm.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Lj\lj_vmevent.h">
+      <Filter>luajit</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="luajit">
+      <UniqueIdentifier>{c1da63f5-8077-4503-b594-df39c3b7aeec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tolua">
+      <UniqueIdentifier>{8d5fd384-8929-4c7b-8b9a-9ebaf83dd6ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="profiler">
+      <UniqueIdentifier>{8db082ba-407c-4773-ac70-644a525e9b1b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
