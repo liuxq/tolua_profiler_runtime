@@ -102,12 +102,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_USRDLL;LUAJIT_ENABLE_GC64;LUA_BUILD_AS_DLL;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE;LUA_LIB;inline=__inline;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Lj;$(SolutionDir)Header;$(SolutionDir)Builvmheader;$(SolutionDir);$(SolutionDir)Profiler;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Lj;$(SolutionDir)Header;$(SolutionDir)Builvmheader;$(SolutionDir)cjson</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(TargetDir)libobj\lib_*.obj;$(TargetDir)ljobj\lj_*.obj;$(TargetDir)lj_vm.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(TargetDir)lj_vm.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -137,7 +137,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LUAJIT_ENABLE_GC64;LUA_BUILD_AS_DLL;_CRT_SECURE_NO_WARNINGS;_WIN32_WCE;LUA_LIB;inline=__inline;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Lj;$(SolutionDir)Header;$(SolutionDir)Builvmheader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Lj;$(SolutionDir)Header;$(SolutionDir)Builvmheader;$(SolutionDir)cjson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -148,6 +148,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cjson\fpconv.c" />
+    <ClCompile Include="..\cjson\lua_cjson.c" />
+    <ClCompile Include="..\cjson\strbuf.c" />
     <ClCompile Include="..\int64.c" />
     <ClCompile Include="..\Lj\lj_alloc.c" />
     <ClCompile Include="..\Lj\lj_api.c" />
@@ -296,6 +299,15 @@
     <ClInclude Include="..\Lj\lj_udata.h" />
     <ClInclude Include="..\Lj\lj_vm.h" />
     <ClInclude Include="..\Lj\lj_vmevent.h" />
+    <ClInclude Include="..\Luaprofiler\cJSON.h" />
+    <ClInclude Include="..\Luaprofiler\clocks.h" />
+    <ClInclude Include="..\Luaprofiler\core_profiler.h" />
+    <ClInclude Include="..\Luaprofiler\function_meter.h" />
+    <ClInclude Include="..\Luaprofiler\lp.h" />
+    <ClInclude Include="..\Luaprofiler\luaprofiler.h" />
+    <ClInclude Include="..\Luaprofiler\output.h" />
+    <ClInclude Include="..\Luaprofiler\queue.h" />
+    <ClInclude Include="..\Luaprofiler\stack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -141,30 +141,31 @@ static void callhook(lua_State *L, lua_Debug *ar) {
 		return;
 	}
 
-	//过滤begin和endsample
-	static char *beginSample = "p_begin";
+	// 过滤begin和endsample
+	/*static char *beginSample = "p_begin";
 	static char *endSample = "p_end";
 	int isSampleFunc = 0;
 	if (ar->name && strcmp(ar->name, beginSample) == 0)
 	{
-		if (ar->event == 0)
-		{
-			isSampleFunc = 1;
-		}
-		else
-		{
-			++profilerLevelOffset;
-			lua_pop(L, 1);
-			return;
-		}
+	if (ar->event == 0)
+	{
+	isSampleFunc = 1;
+	}
+	else
+	{
+	++profilerLevelOffset;
+	lua_pop(L, 1);
+	return;
+	}
 	}
 
 	if (ar->name && ar->event == 0 && strcmp(ar->name, endSample) == 0)
 	{
-		--profilerLevelOffset;
-		lua_pop(L, 1);
-		return;
-	}
+	--profilerLevelOffset;
+	lua_pop(L, 1);
+	return;
+	}*/
+	//end 过滤begin和endsample
 
 	lua_Debug sdebug;
 	int level = 0;
@@ -184,38 +185,38 @@ static void callhook(lua_State *L, lua_Debug *ar) {
 
 	curMem = dbg_info->currentMem;
 
-	if (isSampleFunc)
+	/*if (isSampleFunc)
 	{
-		static char *defaultSampleMod = "p_sampler";
-		strcpy(dbg_info->source, defaultSampleMod);
+	static char *defaultSampleMod = "p_sampler";
+	strcpy(dbg_info->source, defaultSampleMod);
 
-		lua_getlocal(L, ar, 1);
-		const char* v = lua_tostring(L, -1);
-		if (v)
-		{
-			strcpy(dbg_info->name, v);
-		}
-		else
-		{
-			static char *defaultSample = "sample";
-			strcpy(dbg_info->name, defaultSample);
-		}
-		lua_pop(L, 1);
+	lua_getlocal(L, ar, 1);
+	const char* v = lua_tostring(L, -1);
+	if (v)
+	{
+	strcpy(dbg_info->name, v);
 	}
+	else
+	{
+	static char *defaultSample = "sample";
+	strcpy(dbg_info->name, defaultSample);
+	}
+	lua_pop(L, 1);
+	}*/
 
 	lprofC_start_timer2(&dbg_info->currenttime);
 
-	//#if defined(linux)
-	//  if(ar->source &&  strcmp(ar->source, "=[C]") == 0)
-	//  { 
-	//  		dbg_info->ccallname[99] = '\0'; 
-	//     	void* cfun = lua_tocfunction(L, -1);
-	//		Dl_info info;
-	//		dladdr(cfun, &info);        
-	//    	int xx =  (int)((unsigned  int)cfun - (unsigned int )info.dli_fbase);
-	//        snprintf(dbg_info->ccallname, 98, "(CFUN(%s 0x%x %p))\0",get_base_name( info.dli_fname), xx,  cfun );
-	//  }
-	//#endif
+#if defined(linux)
+	if (ar->source &&  strcmp(ar->source, "=[C]") == 0)
+	{
+		dbg_info->ccallname[99] = '\0';
+		void* cfun = lua_tocfunction(L, -1);
+		Dl_info info;
+		dladdr(cfun, &info);
+		int xx = (int)((unsigned  int)cfun - (unsigned int)info.dli_fbase);
+		snprintf(dbg_info->ccallname, 98, "(CFUN(%s 0x%x %p))\0", get_base_name(info.dli_fname), xx, cfun);
+	}
+#endif
 
 	lua_pop(L, 1);
 
@@ -225,7 +226,9 @@ static void callhook(lua_State *L, lua_Debug *ar) {
 
 	handle_dbg_info(dbg_info);
 
-	stat_hook_cost_ts += lprofC_get_seconds2(&nBeginTime);
+	double hookTime = lprofC_get_seconds2(&nBeginTime);
+	stat_hook_cost_ts += hookTime;
+
 	stat_hook_call_cnt += 1;
 
 }

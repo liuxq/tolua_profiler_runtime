@@ -93,6 +93,15 @@ double lprofC_get_seconds2(LARGE_INTEGER *nBeginTime)
 	return time;
 }
 
+void lprofC_add(LARGE_INTEGER *nBeginTime, double delta)
+{
+#if defined(__MINGW32__) || defined(_MSC_VER)
+	nBeginTime->QuadPart += (delta * (double)nFreq.QuadPart / 1000 + 0.5);
+#else
+	nBeginTime->tv_sec += delta / 1000.0;
+#endif
+}
+
 double lprofC_get_millisecond(LARGE_INTEGER *nTime)
 {
 	double time = 0.0;

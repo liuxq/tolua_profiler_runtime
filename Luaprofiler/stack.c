@@ -122,6 +122,8 @@ void lprofT_pop(lprof_DebugInfo* dbg_info)
 		assert(pTreeNode->pNode);
 		pTreeNode->pNode->local_time = (float)lprofC_get_interval(&pTreeNode->pNode->time_maker_local_time_begin, &dbg_info->currenttime);
 		pTreeNode->pNode->time_maker_local_time_end = dbg_info->currenttime;
+		//lprofC_add(&pTreeNode->pNode->time_maker_local_time_end, -func_hook_cost_ts);
+		//func_hook_cost_ts = 0;
 
 		pTreeNode->pNode->mem_end = dbg_info->currentMem;
 
@@ -438,12 +440,6 @@ cJSON* treeTojson(lprofT_NODE* p, calltype precalltype,double* pdLuaConsuming, d
 	assert(p);
 	if (p && p->pNode)
 	{
-		/*
-		if(p->pNode->function_name && filter_lua_api(p->pNode->function_name)){
-			return NULL;
-		}*/
-
-	
 		cJSON* pChild = NULL;
 		calltype curCalltype;
 		char* source = NULL;
@@ -459,7 +455,7 @@ cJSON* treeTojson(lprofT_NODE* p, calltype precalltype,double* pdLuaConsuming, d
 		//cJSON_AddItemToObject(root, "timeConsuming", cJSON_CreateNumber(p->pNode->local_time));
 		cJSON_AddItemToObject(root, "lv", cJSON_CreateNumber(p->pNode->stack_level));
 		//cJSON_AddItemToObject(root, "interval", cJSON_CreateNumber(p->pNode->interval_time));
-		cJSON_AddItemToObject(root, "info", cJSON_CreateString(p->pNode->what));
+		//cJSON_AddItemToObject(root, "info", cJSON_CreateString(p->pNode->what));
 		cJSON_AddItemToObject(root, "bt", cJSON_CreateNumber(beginTime));
 		cJSON_AddItemToObject(root, "et", cJSON_CreateNumber(endTime));
 		cJSON_AddItemToObject(root, "al", cJSON_CreateNumber(p->pNode->mem_end - p->pNode->mem_begin));

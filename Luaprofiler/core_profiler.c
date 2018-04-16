@@ -130,6 +130,7 @@ void lprofP_callhookIN(lprofP_STATE* S, char *func_name, char *file, int linedef
 	if (S->stack_top && dbg_info->level < S->stack_top->level)//如果当前函数层数小于最上层，退出
 		return;
 
+	BOOL isTailFunc = FALSE;
 	if (S->stack_top && dbg_info->level == S->stack_top->level)//如果当前函数层数等于最上层，结束上一层，开始新一层
 	{
 		S->stack_level--;
@@ -142,6 +143,8 @@ void lprofP_callhookIN(lprofP_STATE* S, char *func_name, char *file, int linedef
 		if (S->stack_level != 0) {
 			lprofM_resume_function(S);
 		}
+
+		isTailFunc = TRUE;
 	}
 
 	//开始记录
@@ -149,7 +152,7 @@ void lprofP_callhookIN(lprofP_STATE* S, char *func_name, char *file, int linedef
 
 	//debugLog("in  m:%s f:%s level:%d curBaseFuncLevel:%d stack:%d\n", dbg_info->p_source, dbg_info->p_name, dbg_info->level, curBaseFuncLevel, S->stack_level);
 
-	lprofM_enter_function(S, file, func_name, linedefined, currentline, what, cFun, dbg_info);
+	lprofM_enter_function(S, file, func_name, linedefined, currentline, what, cFun, dbg_info, isTailFunc);
   
 }
 
@@ -158,7 +161,7 @@ void lprofP_callhookIN(lprofP_STATE* S, char *func_name, char *file, int linedef
 /* returns if there is another function in the stack */
 int lprofP_callhookOUT(lprofP_STATE* S, lprof_DebugInfo* dbg_info) 
 {
-	if (!dbg_info->p_name || dbg_info->level > curBaseFuncLevel + iFunFilterLevel)//如果当前函数层数小于最上层，退出
+	if (!dbg_info->p_name || dbg_info->level > curBaseFuncLevel + iFunFilterLevel)//如果当前函数层数超过阈值，退出
 		return 0;
 
 	/*if (!filter_lua_api(dbg_info->p_name, dbg_info->p_source) && !S->stack_top)

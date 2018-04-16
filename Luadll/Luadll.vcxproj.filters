@@ -241,6 +241,15 @@
     <ClCompile Include="..\uint64.c">
       <Filter>tolua</Filter>
     </ClCompile>
+    <ClCompile Include="..\cjson\fpconv.c">
+      <Filter>tolua\cjson</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cjson\lua_cjson.c">
+      <Filter>tolua\cjson</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cjson\strbuf.c">
+      <Filter>tolua\cjson</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Lj\lj_alloc.h">
@@ -441,6 +450,33 @@
     <ClInclude Include="..\Lj\lj_vmevent.h">
       <Filter>luajit</Filter>
     </ClInclude>
+    <ClInclude Include="..\Luaprofiler\cJSON.h">
+      <Filter>profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Luaprofiler\clocks.h">
+      <Filter>profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Luaprofiler\core_profiler.h">
+      <Filter>profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Luaprofiler\function_meter.h">
+      <Filter>profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Luaprofiler\lp.h">
+      <Filter>profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Luaprofiler\luaprofiler.h">
+      <Filter>profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Luaprofiler\output.h">
+      <Filter>profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Luaprofiler\queue.h">
+      <Filter>profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Luaprofiler\stack.h">
+      <Filter>profiler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="luajit">
@@ -451,6 +487,9 @@
     </Filter>
     <Filter Include="profiler">
       <UniqueIdentifier>{8db082ba-407c-4773-ac70-644a525e9b1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tolua\cjson">
+      <UniqueIdentifier>{39d10a9d-bc39-4f27-a175-496657977464}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

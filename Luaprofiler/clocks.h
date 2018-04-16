@@ -29,3 +29,4 @@ void lprofC_start_timer2(LARGE_INTEGER *nBeginTime);
 double lprofC_get_seconds2(LARGE_INTEGER *nBeginTime);
 double lprofC_get_millisecond(LARGE_INTEGER *nTime);
 double lprofC_get_interval(LARGE_INTEGER *nBeginTime, LARGE_INTEGER *nEndTime);
+void lprofC_add(LARGE_INTEGER *nBeginTime, double delta);
