@@ -1,26 +1,63 @@
-﻿
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "lp.h"
-#if defined(linux)
-#define __USE_GNU 1
-#include <dlfcn.h>
+﻿#include <lua.h>
+#include <lauxlib.h>
+
+#include "luaprofiler.h"
+
+static void mark_object(lua_State *L, lua_State *dL, const void * parent, const char * desc);
+
+#if LUA_VERSION_NUM == 501
+
+static void
+luaL_checkversion(lua_State *L) {
+	if (lua_pushthread(L) == 0) {
+		luaL_error(L, "Must require in main thread");
+	}
+	lua_setfield(L, LUA_REGISTRYINDEX, "mainthread");
+}
+
+static void
+lua_rawsetp(lua_State *L, int idx, const void *p) {
+	if (idx < 0) {
+		idx += lua_gettop(L) + 1;
+	}
+	lua_pushlightuserdata(L, (void *)p);
+	lua_insert(L, -2);
+	lua_rawset(L, idx);
+}
+
+static void
+lua_rawgetp(lua_State *L, int idx, const void *p) {
+	if (idx < 0) {
+		idx += lua_gettop(L) + 1;
+	}
+	lua_pushlightuserdata(L, (void *)p);
+	lua_rawget(L, idx);
+}
+
+static void
+lua_getuservalue(lua_State *L, int idx) {
+	lua_getfenv(L, idx);
+}
+
+static void
+mark_function_env(lua_State *L, lua_State *dL, const void * t) {
+	lua_getfenv(L,-1);
+	if (lua_istable(L,-1)) {
+		mark_object(L, dL, t, "[environment]");
+	} else {
+		lua_pop(L,1);
+	}
+}
+
+#else
+
+#define mark_function_env(L,dL,t)
+
 #endif
 
-#include "lua.h"
-#include "lauxlib.h"
-
-
-/* Indices for the main profiler stack and for the original exit function */
-static int is_pause = 0;
-static int is_start = 0;
-
-static int lua_nTableCount = 0;
-static int lua_nFuncCount = 0;
-static int lua_nThreadCount = 0;
-static int lua_nUserDataCount = 0;
-
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
 
 #define TABLE 1
 #define FUNCTION 2
@@ -29,38 +66,22 @@ static int lua_nUserDataCount = 0;
 #define USERDATA 5
 #define MARK 6
 
-#define mark_function_env(L,dL,t)
-//static int profresult_id;
-
-static void mark_object(lua_State *L, lua_State *dL, const void * parent, const char * desc);
-
-#if defined(linux)
-	#define DWORD int
-	#define WINAPI
-#endif
-
-
-static FILE* g_fMemorySnapshot = NULL;
-//static int profiler_clear(lua_State *L);
-
-/************************************************************************/
-/* Lua memory snapshot                                                  */
-/************************************************************************/
-static int ismarked(lua_State *dL, const void *p) {
+static bool
+ismarked(lua_State *dL, const void *p) {
 	lua_rawgetp(dL, MARK, p);
 	if (lua_isnil(dL,-1)) {
 		lua_pop(dL,1);
 		lua_pushboolean(dL,1);
 		lua_rawsetp(dL, MARK, p);
-		return 0;
+		return false;
 	}
 	lua_pop(dL,1);
-	return 1;
+	return true;
 }
 
-static const void *readobject(lua_State *L, lua_State *dL, const void *parent, const char *desc) {
+static const void *
+readobject(lua_State *L, lua_State *dL, const void *parent, const char *desc) {
 	int t = lua_type(L, -1);
-	const void * p = lua_topointer(L, -1);
 	int tidx = 0;
 	switch (t) {
 	case LUA_TTABLE:
@@ -79,6 +100,7 @@ static const void *readobject(lua_State *L, lua_State *dL, const void *parent, c
 		return NULL;
 	}
 
+	const void * p = lua_topointer(L, -1);
 	if (ismarked(dL, p)) {
 		lua_rawgetp(dL, tidx, p);
 		if (!lua_isnil(dL,-1)) {
@@ -98,7 +120,8 @@ static const void *readobject(lua_State *L, lua_State *dL, const void *parent, c
 	return p;
 }
 
-static const char *keystring(lua_State *L, int index, char * buffer) {
+static const char *
+keystring(lua_State *L, int index, char * buffer) {
 	int t = lua_type(L,index);
 	switch (t) {
 	case LUA_TSTRING:
@@ -119,32 +142,24 @@ static const char *keystring(lua_State *L, int index, char * buffer) {
 	return buffer;
 }
 
-static void mark_table(lua_State *L, lua_State *dL, const void * parent, const char * desc) {
-	int type = lua_type(L, -1);
+static void
+mark_table(lua_State *L, lua_State *dL, const void * parent, const char * desc) {
 	const void * t = readobject(L, dL, parent, desc);
-	int weakk = 0;
-	int weakv = 0;
-	const char *mode = NULL;
-	const char *key = NULL;
-	char* name = NULL;
-	char* value = NULL;
-	char addr[32];
 	if (t == NULL)
 		return;
-	sprintf(addr, "%p",t );
-	//output("%p:%s\n", t, desc);
-	name = (char*)malloc(sizeof(char)*(strlen(desc) + strlen(addr) + 4));
-	sprintf(name, "%p:%s", t, desc);
+
+	bool weakk = false;
+	bool weakv = false;
 	if (lua_getmetatable(L, -1)) {
 		lua_pushliteral(L, "__mode");
 		lua_rawget(L, -2);
 		if (lua_isstring(L,-1)) {
-			mode = lua_tostring(L, -1);
+			const char *mode = lua_tostring(L, -1);
 			if (strchr(mode, 'k')) {
-				weakk = 1;
+				weakk = true;
 			}
 			if (strchr(mode, 'v')) {
-				weakv = 1;
+				weakv = true;
 			}
 		}
 		lua_pop(L,1);
@@ -152,53 +167,30 @@ static void mark_table(lua_State *L, lua_State *dL, const void * parent, const c
 		luaL_checkstack(L, LUA_MINSTACK, NULL);
 		mark_table(L, dL, t, "[metatable]");
 	}
+
 	lua_pushnil(L);
 	while (lua_next(L, -2) != 0) {
 		if (weakv) {
 			lua_pop(L,1);
 		} else {
 			char temp[32];
-			key = keystring(L, -2, temp);
-			if (!value)
-			{
-				int count = (int)sizeof(char) * (int)(strlen(key) + 2);
-				value = (char*)malloc(count);
-				memset(value, 0, count);
-				strcpy(value, key);
-			}
-			else
-			{
-				value = (char*)realloc(value, sizeof(char)*(strlen(value) + strlen(key) + 2));
-				strcat(value, key);
-			}
-			strcat(value, "\n");
-			//output("      ----- %s %d\n", key,type);
-			mark_object(L, dL, t , key);
+			const char * desc = keystring(L, -2, temp);
+			mark_object(L, dL, t , desc);
 		}
 		if (!weakk) {
 			lua_pushvalue(L,-1);
 			mark_object(L, dL, t , "[key]");
 		}
 	}
-	if (name)
-	{
-		lprofP_outputToFile(g_fMemorySnapshot,"%s\n", name);
-		free(name);
-	}
-	if (value)
-	{
-		lprofP_outputToFile(g_fMemorySnapshot,"%s\n", value);
-		free(value);
-	}
+
 	lua_pop(L,1);
 }
 
-static void mark_userdata(lua_State *L, lua_State *dL, const void * parent, const char *desc) {
+static void
+mark_userdata(lua_State *L, lua_State *dL, const void * parent, const char *desc) {
 	const void * t = readobject(L, dL, parent, desc);
-	int type = lua_type(L, -1);
 	if (t == NULL)
 		return;
-	//output("--------------addr %p   %d    %s\n", t, type, desc);
 	if (lua_getmetatable(L, -1)) {
 		mark_table(L, dL, t, "[metatable]");
 	}
@@ -212,22 +204,16 @@ static void mark_userdata(lua_State *L, lua_State *dL, const void * parent, cons
 	}
 }
 
-static void mark_function(lua_State *L, lua_State *dL, const void * parent, const char *desc) {
+static void
+mark_function(lua_State *L, lua_State *dL, const void * parent, const char *desc) {
 	const void * t = readobject(L, dL, parent, desc);
-	int type = lua_type(L, -1);
-	
-	const char *name = NULL;
-	char tmp[16];
-	int i;
-	lua_Debug ar;
-	luaL_Buffer b;
 	if (t == NULL)
 		return;
-	//output("--------------addr %p   %d   %s\n", t, type, desc);
-	mark_function_env(L,dL,t);
 
+	mark_function_env(L,dL,t);
+	int i;
 	for (i=1;;i++) {
-		name = lua_getupvalue(L,-1,i);
+		const char *name = lua_getupvalue(L,-1,i);
 		if (name == NULL)
 			break;
 		mark_object(L, dL, t, name[0] ? name : "[upvalue]");
@@ -240,70 +226,60 @@ static void mark_function(lua_State *L, lua_State *dL, const void * parent, cons
 		}
 		lua_pop(L,1);
 	} else {
-
+		lua_Debug ar;
 		lua_getinfo(L, ">S", &ar);
-
+		luaL_Buffer b;
 		luaL_buffinit(dL, &b);
 		luaL_addstring(&b, ar.short_src);
-
+		char tmp[16];
 		sprintf(tmp,":%d",ar.linedefined);
 		luaL_addstring(&b, tmp);
 		luaL_pushresult(&b);
-		//output("      ----- %s%s %d\n", ar.short_src,tmp, type);
 		lua_rawsetp(dL, SOURCE, t);
 	}
 }
 
-static void mark_thread(lua_State *L, lua_State *dL, const void * parent, const char *desc) {
+static void
+mark_thread(lua_State *L, lua_State *dL, const void * parent, const char *desc) {
 	const void * t = readobject(L, dL, parent, desc);
-	int type = lua_type(L, -1);
-	
-	int top = 0;
-	int level = 0;
-	lua_State *cL = NULL;
-	char tmp[128];
-	lua_Debug ar;
-	luaL_Buffer b;
-	const char * name = NULL;
-	int i,j;
 	if (t == NULL)
 		return;
-	//output("--------------addr %p   %d   %s\n", t, type, desc);
-	cL = lua_tothread(L,-1);
+	int level = 0;
+	lua_State *cL = lua_tothread(L,-1);
 	if (cL == L) {
 		level = 1;
 	} else {
 		// mark stack
-		top = lua_gettop(cL);
+		int top = lua_gettop(cL);
 		luaL_checkstack(cL, 1, NULL);
-
+		int i;
+		char tmp[16];
 		for (i=0;i<top;i++) {
 			lua_pushvalue(cL, i+1);
 			sprintf(tmp, "[%d]", i+1);
 			mark_object(cL, dL, cL, tmp);
 		}
 	}
-
+	lua_Debug ar;
+	luaL_Buffer b;
 	luaL_buffinit(dL, &b);
 	while (lua_getstack(cL, level, &ar)) {
+		char tmp[128];
 		lua_getinfo(cL, "Sl", &ar);
 		luaL_addstring(&b, ar.short_src);
 		if (ar.currentline >=0) {
-			memset(tmp,0x0,128);
+			char tmp[16];
 			sprintf(tmp,":%d ",ar.currentline);
-			//output("      ----- %s%s %d\n", ar.short_src, tmp, type);
 			luaL_addstring(&b, tmp);
 		}
 
-
+		int i,j;
 		for (j=1;j>-1;j-=2) {
 			for (i=j;;i+=j) {
-				name = lua_getlocal(cL, &ar, i);
+				const char * name = lua_getlocal(cL, &ar, i);
 				if (name == NULL)
 					break;
-				//snprintf(tmp, sizeof(tmp), "%s : %s:%d",name,ar.short_src,ar.currentline);
-				memset(tmp,0x0,128);
-				sprintf(tmp, "%s : %s:%d",name,ar.short_src,ar.currentline);
+				_snprintf(tmp, sizeof(tmp), "%s : %s:%d",name,ar.short_src,ar.currentline);
 				mark_object(cL, dL, t, tmp);
 			}
 		}
@@ -315,10 +291,10 @@ static void mark_thread(lua_State *L, lua_State *dL, const void * parent, const 
 	lua_pop(L,1);
 }
 
-static void mark_object(lua_State *L, lua_State *dL, const void * parent, const char *desc) {
-	int t;
+static void 
+mark_object(lua_State *L, lua_State *dL, const void * parent, const char *desc) {
 	luaL_checkstack(L, LUA_MINSTACK, NULL);
-	t = lua_type(L, -1);
+	int t = lua_type(L, -1);
 	switch (t) {
 	case LUA_TTABLE:
 		mark_table(L, dL, parent, desc);
@@ -338,7 +314,8 @@ static void mark_object(lua_State *L, lua_State *dL, const void * parent, const 
 	}
 }
 
-static int count_table(lua_State *L, int idx) {
+static int
+count_table(lua_State *L, int idx) {
 	int n = 0;
 	lua_pushnil(L);
 	while (lua_next(L, idx) != 0) {
@@ -348,7 +325,8 @@ static int count_table(lua_State *L, int idx) {
 	return n;
 }
 
-static void gen_table_desc(lua_State *dL, luaL_Buffer *b, const void * parent, const char *desc) {
+static void
+gen_table_desc(lua_State *dL, luaL_Buffer *b, const void * parent, const char *desc) {
 	char tmp[32];
 	size_t l = sprintf(tmp,"%p : ",parent);
 	luaL_addlstring(b, tmp, l);
@@ -356,47 +334,40 @@ static void gen_table_desc(lua_State *dL, luaL_Buffer *b, const void * parent, c
 	luaL_addchar(b, '\n');
 }
 
-static void pdesc(lua_State *L, lua_State *dL, int idx, const char * type_name) {
-	size_t l = 0;
-	const char* s = NULL;
-	const void * parent = NULL;
-	const char * desc = NULL;
-	const void * key = NULL;
+static void
+pdesc(lua_State *L, lua_State *dL, int idx, const char * typename) {
 	lua_pushnil(dL);
 	while (lua_next(dL, idx) != 0) {
 		luaL_Buffer b;
 		luaL_buffinit(L, &b);
-		key = lua_touserdata(dL, -2);
+		const void * key = lua_touserdata(dL, -2);
 		if (idx == FUNCTION) {
 			lua_rawgetp(dL, SOURCE, key);
 			if (lua_isnil(dL, -1)) {
 				luaL_addstring(&b,"cfunction\n");
 			} else {
-				l = 0;
-				s = lua_tolstring(dL, -1, &l);
-				luaL_addstring(&b, "function\n");
+				size_t l = 0;
+				const char * s = lua_tolstring(dL, -1, &l);
 				luaL_addlstring(&b,s,l);
 				luaL_addchar(&b,'\n');
 			}
 			lua_pop(dL, 1);
 		} else if (idx == THREAD) {
 			lua_rawgetp(dL, SOURCE, key);
-			l = 0;
-			s = lua_tolstring(dL, -1, &l);
-			luaL_addstring(&b, "thread\n");
+			size_t l = 0;
+			const char * s = lua_tolstring(dL, -1, &l);
 			luaL_addlstring(&b,s,l);
 			luaL_addchar(&b,'\n');
 			lua_pop(dL, 1);
 		} else {
-			luaL_addstring(&b, type_name);
+			luaL_addstring(&b, typename);
 			luaL_addchar(&b,'\n');
 		}
 		lua_pushnil(dL);
 		while (lua_next(dL, -2) != 0) {
-			parent = lua_touserdata(dL,-2);
-			desc = luaL_checkstring(dL,-1);
+			const void * parent = lua_touserdata(dL,-2);
+			const char * desc = luaL_checkstring(dL,-1);
 			gen_table_desc(dL, &b, parent, desc);
-			//output("--------------------------------------------------    %s\n", desc);
 			lua_pop(dL,1);
 		}
 		luaL_pushresult(&b);
@@ -405,7 +376,8 @@ static void pdesc(lua_State *L, lua_State *dL, int idx, const char * type_name) 
 	}
 }
 
-static void gen_result(lua_State *L, lua_State *dL) {
+static void
+gen_result(lua_State *L, lua_State *dL) {
 	int count = 0;
 	count += count_table(dL, TABLE);
 	count += count_table(dL, FUNCTION);
@@ -418,60 +390,28 @@ static void gen_result(lua_State *L, lua_State *dL) {
 	pdesc(L, dL, THREAD, "thread");
 }
 
-static void count_result(lua_State* L,lua_State* dL)
-{
-	lua_nTableCount = count_table(dL,TABLE);
-	lua_nFuncCount = count_table(dL,FUNCTION);
-	lua_nUserDataCount = count_table(dL,USERDATA);
-	lua_nThreadCount = count_table(dL,THREAD);
-}
-
-/*static int memory_snapshot(lua_State *L)
-{
-	traverse_table(L, -1);
-	return 0;
-}
-*/
-
-
-static int memory_snapshot(lua_State *L) {
+static int
+snapshot(lua_State *L) {
 	int i;
-	const char* file = NULL;
-	//char sz[160];
-	lua_State *dL = NULL;
-	if(lua_gettop(L) >= 1)
-		file = luaL_checkstring(L, 1);
-	if(file)
-	{
-		g_fMemorySnapshot = fopen(file,"w");
-		if(g_fMemorySnapshot)
-		{
-			dL = luaL_newstate();
-			for (i=0;i<MARK;i++) {
-				lua_newtable(dL);
-			}
-			lua_pushvalue(L, LUA_REGISTRYINDEX);
-			mark_table(L, dL, NULL, "[registry]");
-			fclose(g_fMemorySnapshot);
-			lua_close(dL);
-			g_fMemorySnapshot = NULL;
-		}
+	lua_State *dL = luaL_newstate();
+	for (i=0;i<MARK;i++) {
+		lua_newtable(dL);
 	}
-	return 0;
-}
-
-
-/************************************************************************/
-/*         Lua Register Function                                        */
-/************************************************************************/
-int memprofiler_open(lua_State *L)
-{
-	is_pause = 0;
-	is_start = 0;
-	lua_register(L, "profiler_snapshot",memory_snapshot);
-
+	lua_pushvalue(L, LUA_REGISTRYINDEX);
+	mark_table(L, dL, NULL, "[registry]");
+	gen_result(L, dL);
+	lua_close(dL);
 	return 1;
 }
 
+int
+luaopen_snapshot(lua_State *L) {
+	luaL_checkversion(L);
+	lua_pushcfunction(L, snapshot);
+	return 1;
+}
 
-
+LUA_API void init_memprofiler(lua_State *L)
+{
+	lua_register(L, "snapshot", snapshot);
+}

@@ -483,7 +483,6 @@ int profiler_open(lua_State *L)
 	lua_register(L, "profiler_resume", profiler_resume);
 	lua_register(L, "profiler_stop", profiler_stop);
 	lua_register(L, "profiler_frame", profiler_frame);
-	//lua_register(L, "profiler_snapshot",memory_snapshot);
 	// 增加一个判断是否暂停的函数 2016-08-10 lennon.c
 	lua_register(L, "is_profiler_pause", is_profiler_pause);
 
